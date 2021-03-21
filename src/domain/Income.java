@@ -14,6 +14,10 @@ public class Income {
         this.incomeDate = incomeDate;
     }
 
+    public Income(){
+
+    }
+
     public String getName() {
         return name;
     }

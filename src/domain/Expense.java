@@ -1,8 +1,10 @@
 package domain;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class Expense {
+
     private String expenseName;
     private Float expenseValue;
     private LocalDateTime expenseDate;
@@ -11,6 +13,10 @@ public class Expense {
         this.expenseName = expenseName;
         this.expenseValue = expenseValue;
         this.expenseDate = expenseDate;
+    }
+
+    public Expense() {
+
     }
 
     public String getExpenseName() {
