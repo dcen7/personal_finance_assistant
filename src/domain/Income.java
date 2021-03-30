@@ -10,14 +10,16 @@ public class Income {
     private String name;
     private float value;
     private LocalDateTime incomeDate;
+    private User owner;
 
     public Income(){}
 
-    public Income(String name, float value, LocalDateTime incomeDate) {
+    public Income(String name, float value, LocalDateTime incomeDate, User u) {
         this.ID = UUID.randomUUID().toString();
         this.name = name;
         this.value = value;
         this.incomeDate = incomeDate;
+        this.owner = u;
     }
 
     public String getName() {
@@ -52,6 +54,14 @@ public class Income {
         this.ID = ID;
     }
 
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
     @Override
     public String toString() {
 
@@ -59,6 +69,7 @@ public class Income {
                 + ID + ';'
                 + name + ';'
                 + value + ';'
-                + incomeDate;
+                + incomeDate + ';'
+                + owner.getEmail();
     }
 }

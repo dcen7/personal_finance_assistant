@@ -2,6 +2,7 @@ package networking;
 
 import domain.Expense;
 import domain.Income;
+import domain.User;
 import services.ExpenseService;
 import services.IncomeService;
 import ui.UI;
@@ -18,6 +19,8 @@ public class PFAServer {
         UI ui = new UI();
         IncomeService incomeService = new IncomeService();
         ExpenseService expenseService = new ExpenseService();
+        User user = new User("", "");
+
 
         try (ServerSocket serverSocket = new ServerSocket(8888)) {
 
@@ -53,7 +56,7 @@ public class PFAServer {
                         if (incomeValue == -1 || incomeName.equals("-1"))
                             break;
 
-                        Income income = new Income(incomeName, incomeValue, LocalDateTime.now());
+                        Income income = new Income(incomeName, incomeValue, LocalDateTime.now(), user);
 
                         if (incomeService.insert(income))
                             writeToWriterAndFlush("Your income recorded as "+incomeService.numberOfIncomes(), out);
@@ -67,7 +70,7 @@ public class PFAServer {
                         if (expenseValue == -1 || expenseName.equals("-1"))
                             break;
 
-                        Expense expense =  new Expense(expenseName, expenseValue, LocalDateTime.now());
+                        Expense expense =  new Expense(expenseName, expenseValue, LocalDateTime.now(), user);
 
                         if (expenseService.insert(expense))
                             writeToWriterAndFlush("Your expense recorded as "+expenseService.numberOfExpense(), out);
@@ -82,10 +85,10 @@ public class PFAServer {
                         writeToWriterAndFlush(expenseService.toString(), out);
                         break;
                     case 5:
-                        Float incomeSum = incomeService.calculateSum(incomeService.getIncomesOfGivenDate(LocalDateTime.now()));
-                        Float expenseSum = expenseService.calculateSum(expenseService.getExpensesOfGivenDate(LocalDateTime.now()));
+                        Float incomeSum = incomeService.calculateSum(incomeService.getIncomesOfGivenDate(LocalDateTime.now(), user));
+                        Float expenseSum = expenseService.calculateSum(expenseService.getExpensesOfGivenDate(LocalDateTime.now(), user));
 
-                        writeToWriterAndFlush(incomeService.getIncomesOfGivenDate(LocalDateTime.now()).toString(), out);
+                        writeToWriterAndFlush(incomeService.getIncomesOfGivenDate(LocalDateTime.now(), user).toString(), out);
                         writeToWriterAndFlush(expenseService.filterListByDate(LocalDateTime.now()).toString(), out);
 
                         writeToWriterAndFlush("sum of your incomes for month: "+LocalDateTime.now().getMonth()+" : "
